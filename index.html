@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>وظّفني — خدمات التوظيف</title>
+<title>همة — خدمات التوظيف</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -451,6 +451,56 @@ header {
 }
 .toast.show { transform: translateX(-50%) translateY(0); }
 
+/* ── WHATSAPP BUTTON ── */
+.whatsapp-btn {
+  position: fixed; bottom: 28px; left: 28px;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: #25d366; color: white;
+  border: none; cursor: pointer; font-size: 24px;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 150; box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.whatsapp-btn:hover { transform: scale(1.1); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+
+/* ── MODAL ── */
+.modal {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  z-index: 300; align-items: center; justify-content: center;
+  animation: fadeIn 0.2s ease-out;
+}
+.modal.open { display: flex; }
+.modal-content {
+  background: white; border-radius: 16px; max-width: 500px;
+  width: 90%; max-height: 90vh; overflow-y: auto;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+  animation: slideUp 0.3s ease-out;
+}
+.modal-header {
+  padding: 24px; border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.modal-title { font-size: 20px; font-weight: 700; }
+.modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--muted); }
+.modal-body { padding: 24px; }
+.modal-footer { padding: 20px 24px; border-top: 1px solid var(--border); display: flex; gap: 12px; }
+
+/* ── FORM ── */
+.form-group { margin-bottom: 16px; }
+.form-label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 14px; }
+.form-input, .form-select {
+  width: 100%; padding: 10px 12px; border: 1px solid var(--border);
+  border-radius: 8px; font-family: 'Cairo', sans-serif; font-size: 14px;
+  transition: border-color 0.2s;
+}
+.form-input:focus, .form-select:focus { outline: none; border-color: var(--gold); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-full { grid-column: 1 / -1; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   header { padding: 0 20px; }
@@ -461,6 +511,8 @@ header {
   .bundle-price-box { text-align: right; }
   .cart-drawer { width: 100%; }
   .grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .whatsapp-btn { bottom: 20px; left: 20px; width: 48px; height: 48px; font-size: 20px; }
 }
 </style>
 </head>
@@ -468,7 +520,7 @@ header {
 
 <!-- HEADER -->
 <header>
-  <div class="logo">وظّف<em>ني</em></div>
+  <div class="logo">همة<em> هتوظفك</em></div>
   <div class="header-left">
     <button class="cart-btn" onclick="openCart()">
       🛒 السلة
@@ -518,9 +570,9 @@ header {
       </div>
     </div>
     <div class="bundle-price-box">
-      <div class="bundle-old">1400 ج.م</div>
+      <div class="bundle-old">1400 ر.س</div>
       <div class="bundle-new">799</div>
-      <div class="bundle-currency">جنيه مصري</div>
+      <div class="bundle-currency">ريال سعودي</div>
       <button class="bundle-btn" onclick="addToCart('bundle', 'الباقة المتكاملة', 799, '📦')">اشتري الباقة</button>
     </div>
   </div>
@@ -543,9 +595,9 @@ header {
       </div>
       <div class="card-footer">
         <div class="card-price">
-          <div class="price-old">299 ج.م</div>
+          <div class="price-old">299 ر.س</div>
           <div class="price-main">199</div>
-          <div class="price-currency">جنيه مصري</div>
+          <div class="price-currency">ريال سعودي</div>
         </div>
         <button class="add-btn" onclick="addToCart('cv-design', 'تصميم CV بنظام ATS', 199, '📄', this)">+ أضف للسلة</button>
       </div>
@@ -565,7 +617,7 @@ header {
       <div class="card-footer">
         <div class="card-price">
           <div class="price-main">99</div>
-          <div class="price-currency">جنيه مصري</div>
+          <div class="price-currency">ريال سعودي</div>
         </div>
         <button class="add-btn" onclick="addToCart('cv-edit', 'تعديل CV الموجود', 99, '✏️', this)">+ أضف للسلة</button>
       </div>
@@ -586,7 +638,7 @@ header {
       <div class="card-footer">
         <div class="card-price">
           <div class="price-main">149</div>
-          <div class="price-currency">جنيه مصري</div>
+          <div class="price-currency">ريال سعودي</div>
         </div>
         <button class="add-btn" onclick="addToCart('cv-analyze', 'تحليل متطلبات الوظيفة', 149, '🔍', this)">+ أضف للسلة</button>
       </div>
@@ -613,7 +665,7 @@ header {
       <div class="card-footer">
         <div class="card-price">
           <div class="price-main">179</div>
-          <div class="price-currency">جنيه مصري</div>
+          <div class="price-currency">ريال سعودي</div>
         </div>
         <button class="add-btn" onclick="addToCart('linkedin', 'تحسين LinkedIn', 179, '💼', this)">+ أضف للسلة</button>
       </div>
@@ -640,7 +692,7 @@ header {
       <div class="card-footer">
         <div class="card-price">
           <div class="price-main">249</div>
-          <div class="price-currency">جنيه مصري</div>
+          <div class="price-currency">ريال سعودي</div>
         </div>
         <button class="add-btn" onclick="addToCart('interview', 'تدريب على المقابلات', 249, '🎤', this)">+ أضف للسلة</button>
       </div>
@@ -660,7 +712,7 @@ header {
       <div class="card-footer">
         <div class="card-price">
           <div class="price-main">129</div>
-          <div class="price-currency">جنيه مصري</div>
+          <div class="price-currency">ريال سعودي</div>
         </div>
         <button class="add-btn" onclick="addToCart('scenario', 'كتابة سيناريو المقابلة', 129, '📝', this)">+ أضف للسلة</button>
       </div>
@@ -686,9 +738,9 @@ header {
       </div>
       <div class="card-footer">
         <div class="card-price">
-          <div class="price-old">499 ج.م</div>
+          <div class="price-old">499 ر.س</div>
           <div class="price-main">299</div>
-          <div class="price-currency">جنيه مصري / شهر</div>
+          <div class="price-currency">ريال سعودي / شهر</div>
         </div>
         <button class="add-btn" onclick="addToCart('publish', 'نشر السيرة على الشركات', 299, '📤', this)">+ أضف للسلة</button>
       </div>
@@ -716,7 +768,7 @@ header {
   <div class="drawer-footer">
     <div class="cart-total">
       <span class="cart-total-label">الإجمالي</span>
-      <span class="cart-total-amount"><span id="totalAmount">0</span> ج.م</span>
+      <span class="cart-total-amount"><span id="totalAmount">0</span> ر.س</span>
     </div>
     <button class="checkout-btn" id="checkoutBtn" disabled>اشتري الآن →</button>
   </div>
@@ -724,6 +776,189 @@ header {
 
 <!-- TOAST -->
 <div class="toast" id="toast">✅ <span id="toastMsg">تمت الإضافة</span></div>
+
+<!-- WHATSAPP BUTTON -->
+<a href="https://wa.me/966501234567?text=مرحباً%20همة%20وفالاخر%20--%20أحتاج%20مساعدة%20في%20خدماتكم" target="_blank" class="whatsapp-btn" title="تحدث معنا عبر الواتس أب">💬</a>
+
+<!-- CUSTOMER DATA MODAL -->
+<div class="modal" id="customerModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">بيانات الطلب</h2>
+      <button class="modal-close" onclick="closeCustomerModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="customerForm">
+        <div class="form-row">
+          <div class="form-group form-full">
+            <label class="form-label">الاسم الكامل *</label>
+            <input type="text" class="form-input" id="fullName" required placeholder="محمد السديري">
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">البريد الإلكتروني *</label>
+            <input type="email" class="form-input" id="email" required placeholder="example@email.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label">رقم الهاتف *</label>
+            <input type="tel" class="form-input" id="phone" required placeholder="0501234567">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">المدينة</label>
+            <select class="form-select" id="city">
+              <option>اختر المدينة</option>
+              <option>الرياض</option>
+              <option>جدة</option>
+              <option>الدمام</option>
+              <option>الخبر</option>
+              <option>مكة المكرمة</option>
+              <option>المدينة المنورة</option>
+              <option>أخرى</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">التخصص</label>
+            <input type="text" class="form-input" id="specialization" placeholder="هندسة برمجيات">
+          </div>
+        </div>
+
+        <div class="form-group form-full">
+          <label class="form-label">ملاحظات إضافية</label>
+          <textarea class="form-input" id="notes" rows="3" placeholder="أي ملاحظات أو طلبات خاصة؟" style="resize: none;"></textarea>
+        </div>
+
+        <div style="display: flex; gap: 12px;">
+          <button type="button" class="checkout-btn" onclick="proceedToPayment()" style="flex: 1;">متابعة للدفع</button>
+          <button type="button" class="checkout-btn" onclick="closeCustomerModal()" style="flex: 1; background: var(--muted);">إلغاء</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- REFUND POLICY MODAL -->
+<div class="modal" id="refundModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">سياسة الاسترداد والشروط</h2>
+      <button class="modal-close" onclick="closeRefundModal()">✕</button>
+    </div>
+    <div class="modal-body" style="font-size: 14px; line-height: 1.8; color: var(--text);">
+      <h3 style="margin-top: 16px; margin-bottom: 8px; font-weight: 700;">سياسة الاسترداد</h3>
+      <p>نحن نقدم ضمان رضا 100% على جميع خدماتنا:</p>
+      <ul style="margin-right: 20px;">
+        <li>استرجاع كامل المبلغ خلال 7 أيام من الشراء بدون أسئلة</li>
+        <li>في حالة عدم رضاك عن الخدمة، تواصل معنا فقط وسنرد لك المبلغ</li>
+        <li>لا توجد رسوم إضافية أو شروط معقدة</li>
+      </ul>
+
+      <h3 style="margin-top: 16px; margin-bottom: 8px; font-weight: 700;">شروط الخدمة</h3>
+      <ul style="margin-right: 20px;">
+        <li>التسليم يتم خلال 24-48 ساعة من تأكيد الطلب</li>
+        <li>جميع الخدمات مخصصة وفقاً لمعلومات العميل</li>
+        <li>يمكنك طلب مراجعة واحدة مجانية بعد التسليم</li>
+        <li>الخدمات لا تقبل الاسترجاع بعد 7 أيام</li>
+      </ul>
+
+      <h3 style="margin-top: 16px; margin-bottom: 8px; font-weight: 700;">الدفع الآمن</h3>
+      <ul style="margin-right: 20px;">
+        <li>نستخدم Moyasar - بوابة دفع سعودية آمنة وموثوقة</li>
+        <li>بيانات بطاقتك محمية بأعلى معايير التشفير</li>
+        <li>لا نخزن بيانات البطاقة على خوادمنا</li>
+      </ul>
+
+      <p style="margin-top: 20px; color: var(--muted); font-size: 13px;">
+        آخر تحديث: مايو 2026 | للمزيد من التفاصيل <a href="#" style="color: var(--gold);">تواصل معنا</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- THANK YOU PAGE MODAL -->
+<div class="modal" id="thankYouModal">
+  <div class="modal-content" style="text-align: center; padding: 40px 24px;">
+    <div style="font-size: 56px; margin-bottom: 16px;">✅</div>
+    <h2 class="modal-title" style="margin-bottom: 12px;">شكراً لك! 🎉</h2>
+    <p style="color: var(--muted); margin-bottom: 24px; font-size: 15px;">
+تم استقبال طلبك بنجاح! وتم تطويره بواسطة <span style="color: var(--gold-light); font-weight: 800;">nader elsayed</span>
+      تم استقبال طلبك بنجاح!<br>
+      <span id="thankYouEmail" style="font-weight: 600; color: var(--text);"></span>
+    </p>
+    
+    <div style="background: var(--gold-pale); padding: 16px; border-radius: 8px; margin-bottom: 24px; text-align: right;">
+      <p style="font-weight: 600; margin-bottom: 8px;">📋 تفاصيل طلبك:</p>
+      <div id="orderSummary" style="text-align: right; color: var(--text); font-size: 14px;"></div>
+    </div>
+
+    <div style="background: #f0f4f8; padding: 16px; border-radius: 8px; margin-bottom: 24px; border-right: 4px solid var(--gold);">
+      <p style="color: var(--text); font-size: 14px; line-height: 1.6;">
+        <strong>⏱️ الخطوات التالية:</strong><br>
+        سنتابع معك خلال 24 ساعة عبر البريد أو الواتس أب<br>
+        لتأكيد التفاصيل والبدء في العمل على طلبك
+      </p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <a href="https://wa.me/966501234567?text=مرحباً%20-%20لدي%20استفسار%20حول%20طلبي" target="_blank" 
+         style="background: #25d366; color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;">
+        💬 تحدث معنا عبر الواتس
+      </a>
+      <button onclick="closeThankyouModal()" 
+              style="background: var(--navy); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: 600; font-family: 'Cairo', sans-serif; font-size: 14px;">
+        العودة للرئيسية
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer style="background: var(--navy); color: white; padding: 32px 48px; margin-top: 40px; text-align: center;">
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 32px; margin-bottom: 32px; text-align: right;">
+      <div>
+<div style="font-size: 20px; font-weight: 700; margin-bottom: 12px;">همة</div>
+        <p style="color: #9ca3af; font-size: 14px;">خدمات توظيف احترافية ومتكاملة لتحقيق حلمك الوظيفي</p>
+      </div>
+      <div>
+        <div style="font-weight: 700; margin-bottom: 12px;">الروابط</div>
+        <ul style="list-style: none; color: #9ca3af; font-size: 14px;">
+          <li style="margin-bottom: 8px;"><a href="#" onclick="openRefundModal()" style="color: #9ca3af; text-decoration: none;">سياسة الاسترداد</a></li>
+          <li style="margin-bottom: 8px;"><a href="#" style="color: #9ca3af; text-decoration: none;">الشروط والأحكام</a></li>
+          <li><a href="#" style="color: #9ca3af; text-decoration: none;">تواصل معنا</a></li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-weight: 700; margin-bottom: 12px;">التواصل</div>
+        <p style="color: #9ca3af; font-size: 14px;">
+📧 info@hemaa.com<br>📱 0501234567<br>
+        </p>
+      </div>
+    </div>
+<div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; text-align: center; color: #9ca3af; font-size: 13px; line-height: 1.8;">
+
+  <div>
+    © 2026 همة — جميع الحقوق محفوظة.
+  </div>
+
+  <div>
+    Developed by 
+    <a 
+      href="https://www.linkedin.com/in/nader-elsayed-5658b3156/" 
+      target="_blank" 
+      style="color: #3b82f6; text-decoration: none; font-weight: 500;"
+    >
+      Nader Elsayed
+    </a>
+  </div>
+
+</div>
+  </div>
+</footer>
 
 <script>
 let cart = {};
@@ -762,7 +997,7 @@ function updateCart() {
 
   const body = document.getElementById('drawerBody');
   const total = Object.values(cart).reduce((s, i) => s + i.price, 0);
-  document.getElementById('totalAmount').textContent = total.toLocaleString('ar-EG');
+  document.getElementById('totalAmount').textContent = total.toLocaleString('ar-SA');
   document.getElementById('checkoutBtn').disabled = count === 0;
 
   if (count === 0) {
@@ -775,7 +1010,7 @@ function updateCart() {
       <div class="cart-item-icon">${item.icon}</div>
       <div class="cart-item-info">
         <div class="cart-item-name">${item.name}</div>
-        <div class="cart-item-price">${item.price.toLocaleString('ar-EG')} ج.م</div>
+        <div class="cart-item-price">${item.price.toLocaleString('ar-SA')} ر.س</div>
       </div>
       <button class="remove-btn" onclick="removeFromCart('${id}')">🗑</button>
     </div>
@@ -817,8 +1052,138 @@ function filterCards(cat, tab) {
 
 document.getElementById('checkoutBtn').addEventListener('click', () => {
   if (Object.keys(cart).length === 0) return;
-  showToast('جاري التوجيه لصفحة الدفع...');
-  setTimeout(() => alert('هنا بتربط بوابة الدفع — سلة أو فودافون كاش أو غيرها 💳'), 1000);
+  openCustomerModal();
+});
+
+function openCustomerModal() {
+  document.getElementById('customerModal').classList.add('open');
+}
+
+function closeCustomerModal() {
+  document.getElementById('customerModal').classList.remove('open');
+}
+
+function openRefundModal() {
+  document.getElementById('refundModal').classList.add('open');
+}
+
+function closeRefundModal() {
+  document.getElementById('refundModal').classList.remove('open');
+}
+
+function closeThankyouModal() {
+  document.getElementById('thankYouModal').classList.remove('open');
+  closeCart();
+  cart = {};
+  updateCart();
+}
+
+function proceedToPayment() {
+  const fullName = document.getElementById('fullName').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  
+  if (!fullName || !email || !phone) {
+    showToast('⚠️ الرجاء ملء البيانات المطلوبة');
+    return;
+  }
+
+  if (!email.includes('@')) {
+    showToast('⚠️ البريد الإلكتروني غير صحيح');
+    return;
+  }
+
+  const orderData = {
+    fullName,
+    email,
+    phone,
+    city: document.getElementById('city').value,
+    specialization: document.getElementById('specialization').value,
+    notes: document.getElementById('notes').value,
+    items: Object.entries(cart).map(([id, item]) => ({ id, ...item })),
+    total: Object.values(cart).reduce((s, i) => s + i.price, 0),
+    timestamp: new Date().toISOString()
+  };
+
+  showToast('🔄 جاري معالجة الدفع...');
+  
+  initiateMoyasarPayment(orderData);
+}
+
+// ── MOYASAR PAYMENT INTEGRATION ──
+function initiateMoyasarPayment(orderData) {
+  const totalAmount = orderData.total * 100; // Moyasar يتطلب المبلغ بالهللة (Fils)
+  
+  const paymentRequest = {
+    amount: totalAmount,
+    currency: 'SAR',
+description: `طلب من همة - ${orderData.fullName}`,
+    customer: {
+      name: orderData.fullName,
+      email: orderData.email,
+      mobile: orderData.phone
+    },
+    source: {
+      type: 'creditcard'
+    },
+    callback_url: window.location.origin + '/success.html',
+    metadata: {
+      order_id: 'ORD-' + Date.now(),
+      customer_data: JSON.stringify(orderData)
+    }
+  };
+
+  // محاكاة الدفع عبر Moyasar
+  // في الواقع، ستحتاج إلى API key من Moyasar
+  simulateMoyasarPayment(paymentRequest, orderData);
+}
+
+function simulateMoyasarPayment(paymentRequest, orderData) {
+  closeCustomerModal();
+  
+  // محاكاة معالجة الدفع (في الإنتاج، ستستخدم Moyasar API)
+  setTimeout(() => {
+    // حفظ البيانات في Local Storage (في الإنتاج: قاعدة بيانات)
+    localStorage.setItem('lastOrder', JSON.stringify({
+      ...orderData,
+      orderId: 'ORD-' + Date.now(),
+      paymentStatus: 'completed',
+      paymentDate: new Date().toLocaleString('ar-SA')
+    }));
+
+    showThankYouPage(orderData);
+  }, 1500);
+}
+
+function showThankYouPage(orderData) {
+  const orderSummary = document.getElementById('orderSummary');
+  const itemsList = Object.entries(cart)
+    .map(([id, item]) => `<div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+      <span>${item.icon} ${item.name}</span>
+      <span>${item.price.toLocaleString('ar-SA')} ر.س</span>
+    </div>`)
+    .join('');
+
+  const total = Object.values(cart).reduce((s, i) => s + i.price, 0);
+  
+  orderSummary.innerHTML = `
+    ${itemsList}
+    <div style="border-top: 1px solid var(--border); padding-top: 8px; margin-top: 8px; display: flex; justify-content: space-between; font-weight: 700;">
+      <span>الإجمالي</span>
+      <span>${total.toLocaleString('ar-SA')} ر.س</span>
+    </div>
+  `;
+
+  document.getElementById('thankYouEmail').textContent = `تم إرسال تأكيد الطلب إلى: ${orderData.email}`;
+  
+  document.getElementById('thankYouModal').classList.add('open');
+}
+
+// ── MODAL CLOSE ON OVERLAY CLICK ──
+document.addEventListener('click', (e) => {
+  if (e.target.id === 'customerModal') closeCustomerModal();
+  if (e.target.id === 'refundModal') closeRefundModal();
+  if (e.target.id === 'thankYouModal') closeThankyouModal();
 });
 </script>
 </body>
