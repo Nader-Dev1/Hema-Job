@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>همة — خدمات التوظيف</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+<!-- ══════════════════════════════════════════════ -->
+<!--  MOYASAR SDK — لا تحذف هذا السطر            -->
+<!-- ══════════════════════════════════════════════ -->
+<link rel="stylesheet" href="https://cdn.moyasar.com/mpf/1.14.0/moyasar.css">
+<script src="https://cdn.moyasar.com/mpf/1.14.0/moyasar.js"></script>
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -792,7 +799,7 @@ header {
         <div class="form-row">
           <div class="form-group form-full">
             <label class="form-label">الاسم الكامل *</label>
-            <input type="text" class="form-input" id="fullName" required placeholder="محمد السديري">
+            <input type="text" class="form-input" id="fullName" required placeholder="تركي احمد>
           </div>
         </div>
         
@@ -961,27 +968,46 @@ header {
 </footer>
 
 <script>
-let cart = {};
+/* ════════════════════════════════════════════════════════════
+   ⚙️  الإعدادات — غيّر القيم دي بس
+   ════════════════════════════════════════════════════════════ */
+const CONFIG = {
+  // 1️⃣ MOYASAR: روح moyasar.com → حسابك → API Keys → انسخ publishable key
+  MOYASAR_PUBLISHABLE_KEY: 'pk_test_YOUR_MOYASAR_PUBLISHABLE_KEY',
 
+  // 2️⃣ دومين موقعك على Hostinger (بعد الرفع)
+  SITE_URL: 'https://www.hemaa.com',
+
+  // 3️⃣ Formspree endpoint (جاهز)
+  FORMSPREE_URL: 'https://formspree.io/f/meedkpej',
+
+  // 4️⃣ EmailJS
+  EMAILJS_SERVICE_ID:  'service_kg2slg9',
+  EMAILJS_TEMPLATE_ID: 'template_7pfoeef',
+  EMAILJS_PUBLIC_KEY:  'QGCrS2QUGGPgCiNbz',
+};
+
+// تهيئة EmailJS بعد تحميل الصفحة
+window.addEventListener('load', () => {
+  emailjs.init(CONFIG.EMAILJS_PUBLIC_KEY);
+});
+/* ════════════════════════════════════════════════════════════ */
+
+let cart = {};
+let currentOrderData = null;
+
+/* ── CART ── */
 function addToCart(id, name, price, icon, btn) {
-  if (cart[id]) {
-    showToast('الخدمة دي موجودة في السلة بالفعل ✓');
-    return;
-  }
+  if (cart[id]) { showToast('الخدمة دي موجودة في السلة بالفعل ✓'); return; }
   cart[id] = { name, price, icon };
   updateCart();
   showToast('تمت إضافة "' + name + '" للسلة ✅');
-  if (btn) {
-    btn.textContent = '✓ تمت الإضافة';
-    btn.classList.add('added');
-    btn.disabled = true;
-  }
+  if (btn) { btn.textContent = '✓ تمت الإضافة'; btn.classList.add('added'); btn.disabled = true; }
 }
 
 function removeFromCart(id) {
   delete cart[id];
   updateCart();
-  // re-enable buttons
   document.querySelectorAll('.add-btn').forEach(btn => {
     if (btn.onclick && btn.onclick.toString().includes("'" + id + "'")) {
       btn.textContent = '+ أضف للسلة';
@@ -994,17 +1020,14 @@ function removeFromCart(id) {
 function updateCart() {
   const count = Object.keys(cart).length;
   document.getElementById('cartCount').textContent = count;
-
   const body = document.getElementById('drawerBody');
   const total = Object.values(cart).reduce((s, i) => s + i.price, 0);
   document.getElementById('totalAmount').textContent = total.toLocaleString('ar-SA');
   document.getElementById('checkoutBtn').disabled = count === 0;
-
   if (count === 0) {
     body.innerHTML = `<div class="cart-empty"><div class="empty-icon">🛍️</div><p>سلتك فاضية دلوقتي<br>اختار خدمة وأضفها!</p></div>`;
     return;
   }
-
   body.innerHTML = Object.entries(cart).map(([id, item]) => `
     <div class="cart-item">
       <div class="cart-item-icon">${item.icon}</div>
@@ -1017,15 +1040,8 @@ function updateCart() {
   `).join('');
 }
 
-function openCart() {
-  document.getElementById('cartDrawer').classList.add('open');
-  document.getElementById('overlay').classList.add('open');
-}
-
-function closeCart() {
-  document.getElementById('cartDrawer').classList.remove('open');
-  document.getElementById('overlay').classList.remove('open');
-}
+function openCart()  { document.getElementById('cartDrawer').classList.add('open');    document.getElementById('overlay').classList.add('open'); }
+function closeCart() { document.getElementById('cartDrawer').classList.remove('open'); document.getElementById('overlay').classList.remove('open'); }
 
 function showToast(msg) {
   const t = document.getElementById('toast');
@@ -1041,7 +1057,6 @@ function filterCards(cat, tab) {
     const c = card.dataset.cat;
     card.style.display = (cat === 'all' || c === cat || c === 'all') ? '' : 'none';
   });
-  // hide/show section headings
   document.querySelectorAll('.section-heading').forEach(h => {
     if (cat === 'all') { h.style.display = ''; return; }
     const next = h.nextElementSibling;
@@ -1055,135 +1070,206 @@ document.getElementById('checkoutBtn').addEventListener('click', () => {
   openCustomerModal();
 });
 
-function openCustomerModal() {
-  document.getElementById('customerModal').classList.add('open');
-}
-
-function closeCustomerModal() {
-  document.getElementById('customerModal').classList.remove('open');
-}
-
-function openRefundModal() {
-  document.getElementById('refundModal').classList.add('open');
-}
-
-function closeRefundModal() {
-  document.getElementById('refundModal').classList.remove('open');
-}
+function openCustomerModal()  { document.getElementById('customerModal').classList.add('open'); }
+function closeCustomerModal() { document.getElementById('customerModal').classList.remove('open'); }
+function openRefundModal()    { document.getElementById('refundModal').classList.add('open'); }
+function closeRefundModal()   { document.getElementById('refundModal').classList.remove('open'); }
 
 function closeThankyouModal() {
   document.getElementById('thankYouModal').classList.remove('open');
-  closeCart();
-  cart = {};
-  updateCart();
+  closeCart(); cart = {}; updateCart();
 }
 
-function proceedToPayment() {
+/* ── PROCEED TO PAYMENT: validate → send Formspree → open Moyasar ── */
+async function proceedToPayment() {
   const fullName = document.getElementById('fullName').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  
-  if (!fullName || !email || !phone) {
-    showToast('⚠️ الرجاء ملء البيانات المطلوبة');
-    return;
-  }
+  const email    = document.getElementById('email').value.trim();
+  const phone    = document.getElementById('phone').value.trim();
 
-  if (!email.includes('@')) {
-    showToast('⚠️ البريد الإلكتروني غير صحيح');
-    return;
-  }
+  if (!fullName || !email || !phone) { showToast('⚠️ الرجاء ملء البيانات المطلوبة'); return; }
+  if (!email.includes('@'))          { showToast('⚠️ البريد الإلكتروني غير صحيح'); return; }
 
-  const orderData = {
-    fullName,
-    email,
-    phone,
-    city: document.getElementById('city').value,
+  const itemsList = Object.values(cart).map(i => `${i.icon} ${i.name} — ${i.price} ر.س`).join('\n');
+  const total     = Object.values(cart).reduce((s, i) => s + i.price, 0);
+  const orderId   = 'ORD-' + Date.now();
+
+  const confirmCode = 'HM-' + Math.floor(1000 + Math.random() * 9000);
+
+  currentOrderData = {
+    orderId, fullName, email, phone, confirmCode,
+    city:           document.getElementById('city').value,
     specialization: document.getElementById('specialization').value,
-    notes: document.getElementById('notes').value,
-    items: Object.entries(cart).map(([id, item]) => ({ id, ...item })),
-    total: Object.values(cart).reduce((s, i) => s + i.price, 0),
-    timestamp: new Date().toISOString()
+    notes:          document.getElementById('notes').value,
+    items:          Object.entries(cart).map(([id, item]) => ({ id, ...item })),
+    total,
+    timestamp:      new Date().toISOString()
   };
 
-  showToast('🔄 جاري معالجة الدفع...');
-  
-  initiateMoyasarPayment(orderData);
-}
+  /* ── 1. إرسال بيانات الطلب لـ Formspree ── */
+  showToast('🔄 جاري إرسال بيانات الطلب...');
+  try {
+    await fetch(CONFIG.FORMSPREE_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        'رقم الطلب':      orderId,
+        'الاسم':          fullName,
+        'البريد':         email,
+        'الهاتف':         phone,
+        'المدينة':        document.getElementById('city').value,
+        'التخصص':         document.getElementById('specialization').value,
+        'ملاحظات':        document.getElementById('notes').value,
+        'الخدمات':        itemsList,
+        'الإجمالي':       total + ' ر.س',
+        'التاريخ':        new Date().toLocaleString('ar-SA'),
+      })
+    });
+  } catch (err) {
+    console.warn('Formspree error (غير حرج):', err);
+  }
 
-// ── MOYASAR PAYMENT INTEGRATION ──
-function initiateMoyasarPayment(orderData) {
-  const totalAmount = orderData.total * 100; // Moyasar يتطلب المبلغ بالهللة (Fils)
-  
-  const paymentRequest = {
-    amount: totalAmount,
-    currency: 'SAR',
-description: `طلب من همة - ${orderData.fullName}`,
-    customer: {
-      name: orderData.fullName,
-      email: orderData.email,
-      mobile: orderData.phone
+  /* ── 2. إرسال إيميل تأكيد للعميل فوراً ── */
+  const emailServices = Object.values(cart)
+    .map(i => i.icon + ' ' + i.name + ' - ' + i.price.toLocaleString('ar-SA') + ' ريال')
+    .join(' | ');
+
+  emailjs.send(
+    CONFIG.EMAILJS_SERVICE_ID,
+    CONFIG.EMAILJS_TEMPLATE_ID,
+    {
+      to_email:      email,
+      customer_name: fullName,
+      order_id:      orderId,
+      services:      emailServices,
+      total:         total.toLocaleString('ar-SA') + ' ريال سعودي',
+      confirm_code:  currentOrderData.confirmCode,
     },
-    source: {
-      type: 'creditcard'
-    },
-    callback_url: window.location.origin + '/success.html',
-    metadata: {
-      order_id: 'ORD-' + Date.now(),
-      customer_data: JSON.stringify(orderData)
-    }
-  };
+    CONFIG.EMAILJS_PUBLIC_KEY
+  ).then(function() {
+    console.log('✅ إيميل التأكيد اتبعت بنجاح');
+  }).catch(function(err) {
+    console.warn('⚠️ EmailJS error:', JSON.stringify(err));
+  });
 
-  // محاكاة الدفع عبر Moyasar
-  // في الواقع، ستحتاج إلى API key من Moyasar
-  simulateMoyasarPayment(paymentRequest, orderData);
-}
-
-function simulateMoyasarPayment(paymentRequest, orderData) {
+  /* ── 3. فتح نافذة Moyasar للدفع ── */
   closeCustomerModal();
-  
-  // محاكاة معالجة الدفع (في الإنتاج، ستستخدم Moyasar API)
-  setTimeout(() => {
-    // حفظ البيانات في Local Storage (في الإنتاج: قاعدة بيانات)
-    localStorage.setItem('lastOrder', JSON.stringify({
-      ...orderData,
-      orderId: 'ORD-' + Date.now(),
-      paymentStatus: 'completed',
-      paymentDate: new Date().toLocaleString('ar-SA')
-    }));
+  openMoyasarPayment(currentOrderData);
+}
 
-    showThankYouPage(orderData);
-  }, 1500);
+/* ── MOYASAR PAYMENT ── */
+function openMoyasarPayment(orderData) {
+  // مسح أي نافذة دفع سابقة
+  const old = document.getElementById('moyasarContainer');
+  if (old) old.remove();
+
+  // إنشاء container للنافذة
+  const overlay = document.createElement('div');
+  overlay.id = 'moyasarContainer';
+  overlay.style.cssText = `
+    position:fixed; inset:0; background:rgba(0,0,0,0.6);
+    z-index:9999; display:flex; align-items:center; justify-content:center;
+  `;
+
+  const box = document.createElement('div');
+  box.style.cssText = `
+    background:white; border-radius:16px; padding:32px;
+    width:90%; max-width:480px; max-height:90vh; overflow-y:auto;
+    box-shadow:0 12px 40px rgba(0,0,0,0.2); position:relative;
+  `;
+
+  const closeBtn = document.createElement('button');
+  closeBtn.innerHTML = '✕ إغلاق';
+  closeBtn.style.cssText = `
+    position:absolute; top:16px; left:16px;
+    background:none; border:none; cursor:pointer;
+    color:#6b7280; font-size:14px; font-family:'Cairo',sans-serif;
+  `;
+  closeBtn.onclick = () => overlay.remove();
+
+  const title = document.createElement('h3');
+  title.style.cssText = 'font-family:Tajawal,sans-serif; font-size:20px; font-weight:800; margin-bottom:8px; text-align:center;';
+  title.textContent = '💳 إتمام الدفع';
+
+  const subtitle = document.createElement('p');
+  subtitle.style.cssText = 'text-align:center; color:#6b7280; font-size:14px; margin-bottom:24px;';
+  subtitle.textContent = `الإجمالي: ${orderData.total.toLocaleString('ar-SA')} ر.س`;
+
+  const formDiv = document.createElement('div');
+  formDiv.id = 'moyasar-form';
+  formDiv.className = 'mysr-form';
+
+  box.appendChild(closeBtn);
+  box.appendChild(title);
+  box.appendChild(subtitle);
+  box.appendChild(formDiv);
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+
+  // تهيئة Moyasar
+  Moyasar.init({
+    element: '.mysr-form',  // CSS selector
+    amount: orderData.total * 100,  // بالهللة
+    currency: 'SAR',
+    description: `طلب همة - ${orderData.orderId}`,
+    publishable_api_key: CONFIG.MOYASAR_PUBLISHABLE_KEY,
+    callback_url: CONFIG.SITE_URL + '/?payment=success&order=' + orderData.orderId,
+    methods: ['creditcard', 'applepay', 'stcpay'],
+    apple_pay: {
+      country: 'SA',
+      label: 'همة — خدمات التوظيف',
+      validate_merchant_url: 'https://api.moyasar.com/v1/applepay/initiate',
+    },
+    metadata: {
+      order_id:   orderData.orderId,
+      customer:   orderData.fullName,
+      email:      orderData.email,
+      phone:      orderData.phone,
+    },
+    on_completed: function(payment) {
+      overlay.remove();
+      showThankYouPage(orderData);
+    },
+    on_failed: function(payment) {
+      showToast('❌ فشل الدفع — حاول مرة تانية');
+    }
+  });
 }
 
 function showThankYouPage(orderData) {
   const orderSummary = document.getElementById('orderSummary');
   const itemsList = Object.entries(cart)
-    .map(([id, item]) => `<div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+    .map(([id, item]) => `<div style="display:flex;justify-content:space-between;margin-bottom:8px;">
       <span>${item.icon} ${item.name}</span>
       <span>${item.price.toLocaleString('ar-SA')} ر.س</span>
-    </div>`)
-    .join('');
-
+    </div>`).join('');
   const total = Object.values(cart).reduce((s, i) => s + i.price, 0);
-  
   orderSummary.innerHTML = `
     ${itemsList}
-    <div style="border-top: 1px solid var(--border); padding-top: 8px; margin-top: 8px; display: flex; justify-content: space-between; font-weight: 700;">
-      <span>الإجمالي</span>
-      <span>${total.toLocaleString('ar-SA')} ر.س</span>
-    </div>
-  `;
-
+    <div style="border-top:1px solid var(--border);padding-top:8px;margin-top:8px;display:flex;justify-content:space-between;font-weight:700;">
+      <span>الإجمالي</span><span>${total.toLocaleString('ar-SA')} ر.س</span>
+    </div>`;
   document.getElementById('thankYouEmail').textContent = `تم إرسال تأكيد الطلب إلى: ${orderData.email}`;
-  
   document.getElementById('thankYouModal').classList.add('open');
+
+
 }
 
-// ── MODAL CLOSE ON OVERLAY CLICK ──
+// إغلاق المودالز عند الضغط على الخلفية
 document.addEventListener('click', (e) => {
   if (e.target.id === 'customerModal') closeCustomerModal();
-  if (e.target.id === 'refundModal') closeRefundModal();
+  if (e.target.id === 'refundModal')   closeRefundModal();
   if (e.target.id === 'thankYouModal') closeThankyouModal();
+});
+
+// التحقق من نجاح الدفع عند العودة من Moyasar
+window.addEventListener('load', () => {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('payment') === 'success') {
+    const orderId = params.get('order') || '';
+    showToast('✅ تم الدفع بنجاح! رقم طلبك: ' + orderId);
+    // تنظيف الـ URL
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
 });
 </script>
 </body>
