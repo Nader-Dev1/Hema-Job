@@ -3,7 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>همة — خدمات التوظيف</title>
+<title>همة — خدمات التوظيف الاحترافية | CV وLinkedIn</title>
+<meta name="description" content="خدمات توظيف احترافية: تصميم CV بنظام ATS، تعديل السيرة الذاتية، تحسين LinkedIn، تدريب المقابلات. تسليم خلال 24 ساعة.">
+<meta name="keywords" content="سيرة ذاتية, CV احترافي, ATS, LinkedIn, مقابلة عمل, توظيف, سعودية">
+<meta name="author" content="همة">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="همة — خدمات التوظيف الاحترافية">
+<meta property="og:description" content="تصميم CV احترافي، تحسين LinkedIn، تدريب المقابلات. نوصلك وظيفة أحلامك!">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_SA">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#111827">
+<link rel="canonical" href="REPLACE_WITH_YOUR_DOMAIN">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23111827'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='36' font-weight='900' fill='%23d4a017'%3E%D9%87%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23111827'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='36' font-weight='900' fill='%23d4a017'%3E%D9%87%3C/text%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
 <!-- ══════════════════════════════════════════════ -->
 <!--  MOYASAR SDK — لا تحذف هذا السطر            -->
@@ -356,6 +369,7 @@ header {
   transition: all 0.2s;
 }
 .bundle-btn:hover { background: #e8b828; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(184,134,11,0.35); }
+.bundle-btn.added { background: #16a34a; color: white; cursor: default; }
 
 /* ── CART DRAWER ── */
 .overlay {
@@ -368,14 +382,14 @@ header {
 .overlay.open { opacity: 1; pointer-events: all; }
 
 .cart-drawer {
-  position: fixed; top: 0; left: 0;
+  position: fixed; top: 0; right: 0;
   width: 380px; height: 100vh;
   background: var(--white);
   z-index: 400;
-  transform: translateX(-100%);
+  transform: translateX(100%);
   transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
   display: flex; flex-direction: column;
-  box-shadow: 4px 0 40px rgba(0,0,0,0.15);
+  box-shadow: -4px 0 40px rgba(0,0,0,0.15);
 }
 .cart-drawer.open { transform: translateX(0); }
 
@@ -475,7 +489,7 @@ header {
 
 /* ── WHATSAPP BUTTON ── */
 .whatsapp-btn {
-  position: fixed; bottom: 28px; left: 28px;
+  position: fixed; bottom: 28px; right: 28px;
   width: 56px; height: 56px; border-radius: 50%;
   background: #25d366; color: white;
   border: none; cursor: pointer; font-size: 24px;
@@ -535,6 +549,42 @@ header {
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .form-full { grid-column: 1 / -1; }
 
+
+.form-input.error { border-color: #ef4444; background: #fff5f5; }
+.form-input.success { border-color: #16a34a; }
+.field-error {
+  color: #ef4444; font-size: 12px; margin-top: 5px;
+  display: none; align-items: center; gap: 4px;
+}
+.field-error.show { display: flex; }
+
+/* ── PHONE WITH COUNTRY CODE ── */
+.phone-wrapper {
+  display: flex; align-items: stretch; gap: 0;
+  border: 1px solid var(--border); border-radius: 8px;
+  overflow: hidden; transition: border-color 0.2s;
+}
+.phone-wrapper:focus-within { border-color: var(--gold); }
+.phone-wrapper.error { border-color: #ef4444; background: #fff5f5; }
+.phone-wrapper.success { border-color: #16a34a; }
+.country-select {
+  border: none; outline: none;
+  background: #f3f0ea;
+  font-family: 'Cairo', sans-serif; font-size: 13px;
+  padding: 0 10px; cursor: pointer;
+  border-left: 1px solid var(--border);
+  color: var(--text); min-width: 110px;
+  flex-shrink: 0;
+}
+.phone-input-inner {
+  border: none; outline: none; flex: 1;
+  padding: 10px 12px;
+  font-family: 'Cairo', sans-serif; font-size: 14px;
+  background: transparent; color: var(--text);
+  direction: ltr; text-align: left;
+}
+.phone-input-inner::placeholder { color: #aaa; }
+
 /* ── ANIMATIONS ── */
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
@@ -550,15 +600,37 @@ header {
   .cart-drawer { width: 100%; }
   .grid { grid-template-columns: 1fr; }
   .form-row { grid-template-columns: 1fr; }
-  .whatsapp-btn { bottom: 20px; left: 20px; width: 48px; height: 48px; font-size: 20px; }
+  .whatsapp-btn { bottom: 20px; right: 20px; width: 48px; height: 48px; font-size: 20px; }
+  section { padding-left: 16px !important; padding-right: 16px !important; }
+  footer { padding: 24px 16px !important; }
 }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "همة — خدمات التوظيف",
+  "description": "خدمات توظيف احترافية: تصميم CV، تحسين LinkedIn، تدريب المقابلات",
+  "url": "REPLACE_WITH_YOUR_DOMAIN",
+  "telephone": "REPLACE_WITH_YOUR_PHONE",
+  "address": { "@type": "PostalAddress", "addressCountry": "SA" },
+  "priceRange": "99 - 799 ر.س",
+  "currenciesAccepted": "SAR",
+  "paymentAccepted": "بطاقة ائتمان، مدى، Apple Pay، STC Pay",
+  "areaServed": "SA"
+}
+</script>
 </head>
 <body>
 
 <!-- HEADER -->
 <header>
-  <div class="logo">همة<em> هتوظفك</em></div>
+  <div class="logo">
+    <svg width="32" height="32" viewBox="0 0 64 64" style="vertical-align:middle;margin-left:8px;border-radius:8px;" aria-hidden="true">
+      <rect width="64" height="64" rx="14" fill="#111827"/>
+      <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="36" font-weight="900" fill="#d4a017">ه</text>
+    </svg>همة<em> هتوظفك</em>
+  </div>
   <div class="header-left">
     <button class="cart-btn" onclick="openCart()">
       🛒 السلة
@@ -572,10 +644,11 @@ header {
   <h1>خدماتنا <span>الاحترافية</span> لتوظيفك</h1>
   <p>اختار الخدمة اللي تحتاجها وادفع بسهولة — نوصلك نتيجة احترافية خلال 24-48 ساعة</p>
   <div class="badges">
-    <span class="badge">⚡ تسليم سريع</span>
-    <span class="badge">✅ ضمان الجودة</span>
-    <span class="badge gold">🏆 +1000 عميل</span>
-    <span class="badge">💳 دفع آمن</span>
+    <span class="badge">⚡ تسليم خلال 24 ساعة</span>
+    <span class="badge">✅ ضمان استرداد 7 أيام</span>
+    <span class="badge gold">🏆 متوافق 100% مع ATS</span>
+    <span class="badge">💳 دفع آمن بـ Moyasar</span>
+    <span class="badge">🇸🇦 خدمة سعودية متخصصة</span>
   </div>
 </div>
 
@@ -611,7 +684,7 @@ header {
       <div class="bundle-old">1400 ر.س</div>
       <div class="bundle-new">799</div>
       <div class="bundle-currency">ريال سعودي</div>
-      <button class="bundle-btn" onclick="addToCart('bundle', 'الباقة المتكاملة', 799, '📦')">اشتري الباقة</button>
+      <button class="bundle-btn" onclick="addToCart('bundle', 'الباقة المتكاملة', 799, '📦', this)">اشتري الباقة</button>
     </div>
   </div>
 
@@ -830,7 +903,8 @@ header {
         <div class="form-row">
           <div class="form-group form-full">
             <label class="form-label">الاسم الكامل *</label>
-            <input type="text" class="form-input" id="fullName" required placeholder="تركي احمد">
+            <input type="text" class="form-input" id="fullName" required placeholder="تركي احمد" oninput="validateNameInline()">
+            <span class="field-error" id="err-name">⚠ الاسم لازم يكون 3 حروف على الأقل</span>
           </div>
         </div>
         
@@ -838,10 +912,28 @@ header {
           <div class="form-group">
             <label class="form-label">البريد الإلكتروني *</label>
             <input type="email" class="form-input" id="email" required placeholder="example@email.com">
+            <span class="field-error" id="err-email">⚠ بريد إلكتروني غير صحيح</span>
           </div>
           <div class="form-group">
             <label class="form-label">رقم الهاتف *</label>
-            <input type="tel" class="form-input" id="phone" required placeholder="0501234567">
+            <div class="phone-wrapper" id="phoneWrapper">
+              <select class="country-select" id="countryCode" onchange="updatePhonePlaceholder()">
+                <option value="+966" data-digits="9" data-placeholder="5XXXXXXXX">🇸🇦 +966</option>
+                <option value="+971" data-digits="9" data-placeholder="5XXXXXXXX">🇦🇪 +971</option>
+                <option value="+965" data-digits="8" data-placeholder="XXXXXXXX">🇰🇼 +965</option>
+                <option value="+974" data-digits="8" data-placeholder="XXXXXXXX">🇶🇦 +974</option>
+                <option value="+973" data-digits="8" data-placeholder="XXXXXXXX">🇧🇭 +973</option>
+                <option value="+968" data-digits="8" data-placeholder="XXXXXXXX">🇴🇲 +968</option>
+                <option value="+20"  data-digits="10" data-placeholder="1XXXXXXXXX">🇪🇬 +20</option>
+                <option value="+962" data-digits="9" data-placeholder="7XXXXXXXX">🇯🇴 +962</option>
+                <option value="+963" data-digits="9" data-placeholder="9XXXXXXXX">🇸🇾 +963</option>
+                <option value="+218" data-digits="9" data-placeholder="9XXXXXXXX">🇱🇾 +218</option>
+                <option value="+44"  data-digits="10" data-placeholder="7XXXXXXXXX">🇬🇧 +44</option>
+                <option value="+1"   data-digits="10" data-placeholder="XXXXXXXXXX">🇺🇸 +1</option>
+              </select>
+              <input type="tel" class="phone-input-inner" id="phone" required placeholder="5XXXXXXXX" maxlength="12" oninput="validatePhoneInline()">
+            </div>
+            <span class="field-error" id="err-phone">⚠ رقم الهاتف غير صحيح</span>
           </div>
         </div>
 
@@ -954,6 +1046,76 @@ header {
   </div>
 </div>
 
+
+<!-- FAQ SECTION -->
+<section style="background: var(--bg); padding: 48px 48px 32px; border-top: 1px solid var(--border);">
+  <div style="max-width: 800px; margin: 0 auto;">
+    <div style="text-align:center; margin-bottom: 32px;">
+      <div style="font-family: Tajawal, sans-serif; font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 6px;">أسئلة شائعة</div>
+    </div>
+    <div id="faqList" style="display: flex; flex-direction: column; gap: 10px;"></div>
+  </div>
+</section>
+
+<!-- TRUST SECTION -->
+<section style="background: var(--white); border-top: 1px solid var(--border); padding: 48px 48px 32px;">
+  <div style="max-width: 1100px; margin: 0 auto;">
+    <div style="text-align:center; margin-bottom: 36px;">
+      <div style="font-family: Tajawal, sans-serif; font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 6px;">ماذا قال عملاؤنا؟</div>
+      <p style="color: var(--muted); font-size: 14px;">آراء حقيقية من أشخاص وصلوا لوظائف أحلامهم</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-bottom: 48px;">
+      <div style="background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 22px;">
+        <div style="color: #f59e0b; font-size: 16px; margin-bottom: 10px;">★★★★★</div>
+        <p style="font-size: 14px; color: var(--text); line-height: 1.7; margin-bottom: 14px;">"الـ CV اللي عملوه عدى ATS شركات كنت رافضاني فيها من سنتين. شكراً همة!"</p>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--navy);color:var(--gold-light);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;">م</div>
+          <div><div style="font-weight:700;font-size:14px;">محمد العتيبي</div><div style="font-size:12px;color:var(--muted);">مهندس برمجيات — الرياض</div></div>
+        </div>
+      </div>
+      <div style="background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 22px;">
+        <div style="color: #f59e0b; font-size: 16px; margin-bottom: 10px;">★★★★★</div>
+        <p style="font-size: 14px; color: var(--text); line-height: 1.7; margin-bottom: 14px;">"عدّلوا الـ LinkedIn بتاعتي وبدأت أستلم رسائل من HR في أسبوع واحد بس. خدمة ممتازة!"</p>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--navy);color:var(--gold-light);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;">س</div>
+          <div><div style="font-weight:700;font-size:14px;">سارة الشمري</div><div style="font-size:12px;color:var(--muted);">محاسبة — جدة</div></div>
+        </div>
+      </div>
+      <div style="background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 22px;">
+        <div style="color: #f59e0b; font-size: 16px; margin-bottom: 10px;">★★★★★</div>
+        <p style="font-size: 14px; color: var(--text); line-height: 1.7; margin-bottom: 14px;">"اشتريت الباقة المتكاملة وحصلت على وظيفة في أقل من شهر. يستاهل كل ريال!"</p>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--navy);color:var(--gold-light);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;">ف</div>
+          <div><div style="font-weight:700;font-size:14px;">فيصل الدوسري</div><div style="font-size:12px;color:var(--muted);">مدير مشاريع — الدمام</div></div>
+        </div>
+      </div>
+    </div>
+    <!-- طرق الدفع -->
+    <div style="border-top: 1px solid var(--border); padding-top: 28px; text-align: center;">
+      <p style="font-size: 13px; color: var(--muted); margin-bottom: 16px; font-weight: 600;">طرق الدفع المقبولة</p>
+      <div style="display: flex; justify-content: center; align-items: center; gap: 16px; flex-wrap: wrap;">
+        <div style="background: #1a1f71; border-radius: 8px; padding: 6px 14px; display: flex; align-items: center;">
+          <svg width="48" height="16" viewBox="0 0 48 16" fill="none"><text x="0" y="13" font-family="Arial" font-size="14" font-weight="900" fill="white" letter-spacing="1">VISA</text></svg>
+        </div>
+        <div style="background: white; border: 1px solid #ddd; border-radius: 8px; padding: 6px 10px; display: flex; align-items: center; gap: 4px;">
+          <svg width="36" height="22" viewBox="0 0 36 22"><circle cx="13" cy="11" r="11" fill="#EB001B"/><circle cx="23" cy="11" r="11" fill="#F79E1B"/><path d="M18 3.8a11 11 0 0 1 0 14.4A11 11 0 0 1 18 3.8z" fill="#FF5F00"/></svg>
+        </div>
+        <div style="background: white; border: 1px solid #ddd; border-radius: 8px; padding: 6px 12px;">
+          <span style="font-family: Arial; font-weight: 900; font-size: 13px; color: #00a651; letter-spacing: 1px;">mada</span>
+        </div>
+        <div style="background: black; border-radius: 8px; padding: 6px 14px; display: flex; align-items: center; gap: 5px;">
+          <svg width="14" height="16" viewBox="0 0 14 16" fill="white"><path d="M11.5 8.3c0-2.1 1.7-3.1 1.8-3.2-1-1.4-2.5-1.6-3-1.6-1.3-.1-2.5.7-3.1.7-.7 0-1.7-.7-2.7-.7C2.8 3.6 1 4.8 1 7.2c0 1.4.5 2.9 1.2 3.9.7 1 1.3 1.9 2.2 1.8.9 0 1.2-.6 2.3-.6s1.4.6 2.3.6c1 0 1.6-.9 2.2-1.9.4-.7.7-1.4.8-1.4-.1-.1-1.5-.6-1.5-2.3z"/><path d="M9.5 2.1c.6-.7 1-1.6.9-2.6-.9.1-1.9.6-2.5 1.3-.6.6-1 1.5-.9 2.4 1 .1 2-.5 2.5-1.1z"/></svg>
+          <span style="font-family: Arial; font-size: 12px; color: white; font-weight: 600;">Pay</span>
+        </div>
+        <div style="background: #7B2D8B; border-radius: 8px; padding: 6px 12px;">
+          <span style="font-family: Arial; font-weight: 900; font-size: 12px; color: white; letter-spacing: 0.5px;">STC Pay</span>
+        </div>
+      </div>
+      <p style="font-size: 12px; color: var(--muted); margin-top: 12px;">🔒 جميع المدفوعات محمية بتشفير SSL عبر Moyasar</p>
+    </div>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer style="background: var(--navy); color: white; padding: 32px 48px; margin-top: 40px; text-align: center;">
   <div style="max-width: 1200px; margin: 0 auto;">
@@ -1024,6 +1186,98 @@ window.addEventListener('load', () => {
 });
 /* ════════════════════════════════════════════════════════════ */
 
+
+/* ── RATE LIMITING ── */
+const _submitLog = [];
+function _checkRateLimit() {
+  const now = Date.now();
+  while (_submitLog.length && now - _submitLog[0] > 60000) _submitLog.shift();
+  if (_submitLog.length >= 5) return false;
+  _submitLog.push(now);
+  return true;
+}
+
+/* ── VALIDATION ── */
+const COUNTRY_DIGITS = {
+  '+966': { regex: /^5\d{8}$/ },  '+971': { regex: /^5\d{8}$/ },
+  '+965': { regex: /^\d{8}$/ },   '+974': { regex: /^\d{8}$/ },
+  '+973': { regex: /^\d{8}$/ },   '+968': { regex: /^\d{8}$/ },
+  '+20':  { regex: /^1\d{9}$/ },  '+962': { regex: /^7\d{8}$/ },
+  '+963': { regex: /^9\d{8}$/ },  '+218': { regex: /^9\d{8}$/ },
+  '+44':  { regex: /^7\d{9}$/ },  '+1':   { regex: /^\d{10}$/ },
+};
+function _validatePhone(raw) {
+  const code = document.getElementById('countryCode').value;
+  const phone = raw.replace(/[\s\-]/g, '');
+  const rule = COUNTRY_DIGITS[code];
+  return rule ? rule.regex.test(phone) : phone.length >= 7;
+}
+function _validateEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e.trim()); }
+function _validateName(n)  { return n.trim().length >= 3; }
+
+function updatePhonePlaceholder() {
+  const sel = document.getElementById('countryCode');
+  const opt = sel.options[sel.selectedIndex];
+  document.getElementById('phone').placeholder = opt.dataset.placeholder || 'XXXXXXXX';
+  document.getElementById('phone').value = '';
+  clearFieldError('phone', 'phoneWrapper');
+}
+
+/* ── FIELD ERROR HELPERS ── */
+function showFieldError(inputId, errorId, wrapperId) {
+  const err = document.getElementById(errorId);
+  if (wrapperId) {
+    const w = document.getElementById(wrapperId);
+    if (w) { w.classList.add('error'); w.classList.remove('success'); }
+  } else {
+    const inp = document.getElementById(inputId);
+    if (inp) { inp.classList.add('error'); inp.classList.remove('success'); }
+  }
+  if (err) err.classList.add('show');
+}
+function showFieldSuccess(inputId, wrapperId) {
+  const errMap = { fullName:'err-name', email:'err-email', phone:'err-phone' };
+  const err = document.getElementById(errMap[inputId] || 'err-'+inputId);
+  if (wrapperId) {
+    const w = document.getElementById(wrapperId);
+    if (w) { w.classList.remove('error'); w.classList.add('success'); }
+  } else {
+    const inp = document.getElementById(inputId);
+    if (inp) { inp.classList.remove('error'); inp.classList.add('success'); }
+  }
+  if (err) err.classList.remove('show');
+}
+function clearFieldError(inputId, wrapperId) {
+  const errMap = { fullName:'err-name', email:'err-email', phone:'err-phone' };
+  const err = document.getElementById(errMap[inputId] || 'err-'+inputId);
+  if (wrapperId) {
+    const w = document.getElementById(wrapperId);
+    if (w) { w.classList.remove('error','success'); }
+  } else {
+    const inp = document.getElementById(inputId);
+    if (inp) { inp.classList.remove('error','success'); }
+  }
+  if (err) err.classList.remove('show');
+}
+function validateNameInline() {
+  const v = document.getElementById('fullName').value;
+  if (!v) { clearFieldError('fullName'); return; }
+  _validateName(v) ? showFieldSuccess('fullName') : showFieldError('fullName','err-name');
+}
+function validatePhoneInline() {
+  const v = document.getElementById('phone').value;
+  if (!v) { clearFieldError('phone','phoneWrapper'); return; }
+  _validatePhone(v) ? showFieldSuccess('phone','phoneWrapper') : showFieldError('phone','err-phone','phoneWrapper');
+}
+document.addEventListener('DOMContentLoaded', () => {
+  const emailInput = document.getElementById('email');
+  if (emailInput) emailInput.addEventListener('input', () => {
+    const v = emailInput.value;
+    if (!v) { clearFieldError('email'); return; }
+    _validateEmail(v) ? showFieldSuccess('email') : showFieldError('email','err-email');
+  });
+});
+
 let cart = {};
 let currentOrderData = null;
 
@@ -1033,18 +1287,17 @@ function addToCart(id, name, price, icon, btn) {
   cart[id] = { name, price, icon };
   updateCart();
   showToast('تمت إضافة "' + name + '" للسلة ✅');
-  if (btn) { btn.textContent = '✓ تمت الإضافة'; btn.classList.add('added'); btn.disabled = true; }
+  if (btn) { btn.textContent = '✓ تمت الإضافة'; btn.classList.add('added'); btn.disabled = true; btn.dataset.cartId = id; }
 }
 
 function removeFromCart(id) {
   delete cart[id];
   updateCart();
-  document.querySelectorAll('.add-btn').forEach(btn => {
-    if (btn.onclick && btn.onclick.toString().includes("'" + id + "'")) {
-      btn.textContent = '+ أضف للسلة';
-      btn.classList.remove('added');
-      btn.disabled = false;
-    }
+  document.querySelectorAll('[data-cart-id="' + id + '"]').forEach(btn => {
+    btn.textContent = '+ أضف للسلة';
+    btn.classList.remove('added');
+    btn.disabled = false;
+    delete btn.dataset.cartId;
   });
 }
 
@@ -1112,32 +1365,49 @@ function closeThankyouModal() {
 }
 
 /* ── PROCEED TO PAYMENT: validate → send Formspree → open Moyasar ── */
+let isProcessing = false;
+
 async function proceedToPayment() {
+  if (isProcessing) return;
+  if (!_checkRateLimit()) { showToast('⚠️ محاولات كثيرة — انتظر دقيقة وحاول تاني'); return; }
+
   const fullName = document.getElementById('fullName').value.trim();
   const email    = document.getElementById('email').value.trim();
   const phone    = document.getElementById('phone').value.trim();
 
-  if (!fullName || !email || !phone) { showToast('⚠️ الرجاء ملء البيانات المطلوبة'); return; }
-  if (!email.includes('@'))          { showToast('⚠️ البريد الإلكتروني غير صحيح'); return; }
+  let hasError = false;
+  if (!_validateName(fullName)) { showFieldError('fullName','err-name'); hasError = true; }
+  else showFieldSuccess('fullName');
+  if (!_validateEmail(email))   { showFieldError('email','err-email'); hasError = true; }
+  else showFieldSuccess('email');
+  if (!_validatePhone(phone))   { showFieldError('phone','err-phone','phoneWrapper'); hasError = true; }
+  else showFieldSuccess('phone','phoneWrapper');
+  if (!fullName || !email || !phone) hasError = true;
+  if (hasError) return;
+
+  isProcessing = true;
+  const payBtn = document.querySelector('#customerModal button[onclick]');
+  const origText = payBtn ? payBtn.textContent : '';
+  if (payBtn) { payBtn.disabled = true; payBtn.textContent = '⏳ جاري المعالجة...'; }
 
   const itemsList = Object.values(cart).map(i => `${i.icon} ${i.name} — ${i.price} ر.س`).join('\n');
   const total     = Object.values(cart).reduce((s, i) => s + i.price, 0);
   const orderId   = 'ORD-' + Date.now();
-
   const confirmCode = 'HM-' + Math.floor(1000 + Math.random() * 9000);
+  const cartSnapshot = { ...cart };
+  const fullPhone = document.getElementById('countryCode').value + phone;
 
   currentOrderData = {
-    orderId, fullName, email, phone, confirmCode,
+    orderId, fullName, email, phone: fullPhone, confirmCode,
     city:           document.getElementById('city').value,
     specialization: document.getElementById('specialization').value,
     notes:          document.getElementById('notes').value,
     items:          Object.entries(cart).map(([id, item]) => ({ id, ...item })),
-    total,
+    cartSnapshot, total,
     timestamp:      new Date().toISOString()
   };
 
   /* ── 1. إرسال بيانات الطلب لـ Formspree ── */
-  showToast('🔄 جاري إرسال بيانات الطلب...');
   try {
     await fetch(CONFIG.FORMSPREE_URL, {
       method: 'POST',
@@ -1146,7 +1416,7 @@ async function proceedToPayment() {
         'رقم الطلب':      orderId,
         'الاسم':          fullName,
         'البريد':         email,
-        'الهاتف':         phone,
+        'الهاتف':         fullPhone,
         'المدينة':        document.getElementById('city').value,
         'التخصص':         document.getElementById('specialization').value,
         'ملاحظات':        document.getElementById('notes').value,
@@ -1181,6 +1451,9 @@ async function proceedToPayment() {
   }).catch(function(err) {
     console.warn('⚠️ EmailJS error:', JSON.stringify(err));
   });
+
+  if (payBtn) { payBtn.disabled = false; payBtn.textContent = origText; }
+  isProcessing = false;
 
   /* ── 3. فتح نافذة Moyasar للدفع ── */
   closeCustomerModal();
@@ -1268,12 +1541,13 @@ function openMoyasarPayment(orderData) {
 
 function showThankYouPage(orderData) {
   const orderSummary = document.getElementById('orderSummary');
-  const itemsList = Object.entries(cart)
+  const itemsSource = orderData.cartSnapshot || cart;
+  const itemsList = Object.entries(itemsSource)
     .map(([id, item]) => `<div style="display:flex;justify-content:space-between;margin-bottom:8px;">
       <span>${item.icon} ${item.name}</span>
       <span>${item.price.toLocaleString('ar-SA')} ر.س</span>
     </div>`).join('');
-  const total = Object.values(cart).reduce((s, i) => s + i.price, 0);
+  const total = Object.values(itemsSource).reduce((s, i) => s + i.price, 0);
   orderSummary.innerHTML = `
     ${itemsList}
     <div style="border-top:1px solid var(--border);padding-top:8px;margin-top:8px;display:flex;justify-content:space-between;font-weight:700;">
@@ -1291,6 +1565,40 @@ document.addEventListener('click', (e) => {
   if (e.target.id === 'refundModal')   closeRefundModal();
   if (e.target.id === 'thankYouModal') closeThankyouModal();
 });
+
+
+/* ── FAQ ── */
+const FAQS = [
+  { q: 'متى أستلم الـ CV؟', a: 'تصميم CV الجديد خلال 24 ساعة من تأكيد الطلب. تعديل CV الموجود خلال 48 ساعة.' },
+  { q: 'كيف تعرفون تخصصي وخبراتي؟', a: 'بعد الدفع نتواصل معك على الواتساب أو الإيميل ونطلب منك المعلومات اللازمة.' },
+  { q: 'هل يتوافق الـ CV مع الشركات السعودية والخليجية؟', a: 'نعم، نصمم CV يناسب سوق العمل السعودي والخليجي بالكامل مع مراعاة متطلبات ATS.' },
+  { q: 'ما هي سياسة الاسترداد؟', a: 'ضمان استرداد كامل خلال 7 أيام من الشراء بدون أسئلة إذا لم تكن راضياً.' },
+  { q: 'هل يمكنني طلب تعديل بعد الاستلام؟', a: 'نعم، كل خدمة تشمل مراجعة مجانية واحدة بعد التسليم.' },
+  { q: 'ما الفرق بين تصميم CV وتعديل CV؟', a: 'تصميم CV = نبني سيرتك من الصفر. تعديل CV = عندك سيرة موجودة نحسّنها ونطورها.' },
+];
+(function renderFaqs() {
+  const container = document.getElementById('faqList');
+  if (!container) return;
+  FAQS.forEach((faq, i) => {
+    const item = document.createElement('div');
+    item.style.cssText = 'background:var(--white);border:1px solid var(--border);border-radius:10px;overflow:hidden;';
+    item.innerHTML = `
+      <button onclick="toggleFaq(${i})" style="width:100%;background:none;border:none;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-family:Cairo,sans-serif;font-size:15px;font-weight:700;color:var(--navy);text-align:right;">
+        <span>${faq.q}</span>
+        <span id="faq-icon-${i}" style="font-size:20px;color:var(--gold);transition:transform .2s;flex-shrink:0;margin-right:12px;">+</span>
+      </button>
+      <div id="faq-body-${i}" style="display:none;padding:0 20px 16px;font-size:14px;color:var(--muted);line-height:1.7;">${faq.a}</div>
+    `;
+    container.appendChild(item);
+  });
+})();
+function toggleFaq(i) {
+  const body = document.getElementById('faq-body-' + i);
+  const icon = document.getElementById('faq-icon-' + i);
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  icon.textContent = open ? '+' : '−';
+}
 
 // التحقق من نجاح الدفع عند العودة من Moyasar
 window.addEventListener('load', () => {
