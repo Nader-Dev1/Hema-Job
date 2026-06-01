@@ -648,7 +648,34 @@ h1 span{color:var(--gold)}
 .carousel-track .review-card{  flex:0 0 80%;
   min-width:80%;
   margin:0 10%;}
-@media(max-width:699px){.carousel-track .review-card{min-width:100%}.carousel-wrap{padding:0 44px}}
+@media (max-width: 768px){
+
+  .reviews-section{
+    padding:48px 16px 56px;
+  }
+
+  .carousel-wrap{
+    padding:0 40px;
+  }
+
+  .carousel-arrow{
+    width:34px;
+    height:34px;
+    font-size:20px;
+  }
+
+  .review-card{
+    padding:16px;
+  }
+
+  .reviews-heading{
+    font-size:26px;
+  }
+
+  .rating-big{
+    font-size:32px;
+  }
+}
 
 /* ── REVIEW CARD ── */
 .review-card{
